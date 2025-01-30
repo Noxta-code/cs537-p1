@@ -39,6 +39,10 @@ int compare_kword(const void *one, const void *two){
         return -1; // place two after one
     }
 
+    // Remove newline from kth word if present
+    line_one[1][strcspn(line_one[1], "\n")] = '\0';
+    line_two[1][strcspn(line_two[1], "\n")] = '\0';
+
     // Else, compare the keywords
     // Handle trailing newline character for edge case, find which kword is shorter b/c that one has no newline
     int result = -1;

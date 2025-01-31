@@ -1,1 +1,0 @@
-./run-tests.sh: line 27:  1134 Segmentation fault      (core dumped) ../solution/sortk tests/10.input 6

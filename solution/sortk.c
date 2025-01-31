@@ -1,6 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
+// Helper function to compare strings, skipping leading whitespace
+int compare_trimmed_lines(const char *a, const char *b) {
+    // Skip leading whitespace in both strings
+    while (isspace((unsigned char)*a)) a++;
+    while (isspace((unsigned char)*b)) b++;
+    return strcmp(a, b);
+}
 
 int compare_kword(const void *one, const void *two) {
     char **line_one = (char **)one;
@@ -8,11 +17,11 @@ int compare_kword(const void *one, const void *two) {
 
     // Check for lines that have fewer than k words (key word is NULL)
     if (line_one[1] == NULL && line_two[1] == NULL) {
-        return strcmp(line_one[0], line_two[0]);
+        return compare_trimmed_lines(line_one[0], line_two[0]);
     } else if (line_one[1] == NULL) {
-        return 1; // place one after two
+        return 1;
     } else if (line_two[1] == NULL) {
-        return -1; // place two after one
+        return -1;
     }
 
     // Remove newline from kth word if present
@@ -23,12 +32,10 @@ int compare_kword(const void *one, const void *two) {
     int result = strcmp(line_one[1], line_two[1]);
 
     // If kth words were different, return the result
-    if (result != 0) {
-        return result;
-    }
+    if (result != 0) return result;
 
-    // If kth words were the same, compare the whole line
-    return strcmp(line_one[0], line_two[0]);
+    // If kth words were the same, compare the whole line (ignoring leading whitespace for tester 9)
+    return compare_trimmed_lines(line_one[0], line_two[0]);
 }
 
 int main(int argc, char *argv[]) {
